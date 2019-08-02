@@ -1,8 +1,11 @@
 (declare-project
   :name "tester"
   :description "A basic testing library for janet"
-  :dependencies [])
+  :dependencies []
+  :author "Sean Walker"
+  :license "MIT"
+  :url "https://github.com/jets-framework/tester"
+  :repo "git+https://github.com/jets-framework/tester")
 
-(declare-executable
-  :name "tester"
-  :entry "src/main.janet")
+(declare-source
+  :source @["src/main.janet"])
