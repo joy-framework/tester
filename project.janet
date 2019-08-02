@@ -1,6 +1,6 @@
 (declare-project
   :name "tester"
-  :description "A basic testing library for janet"
+  :description "A testing library for janet"
   :dependencies []
   :author "Sean Walker"
   :license "MIT"

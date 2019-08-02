@@ -1,5 +1,5 @@
 # tester
-A basic testing library for janet
+A testing library for janet
 
 ## Installation
 
