@@ -47,6 +47,3 @@
      (start-suite 0)
      ,(splice forms)
      (end-suite)))
-
-
-(defn main [&])

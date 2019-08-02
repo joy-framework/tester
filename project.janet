@@ -8,4 +8,4 @@
   :repo "git+https://github.com/jets-framework/tester")
 
 (declare-source
-  :source @["src/main.janet"])
+  :source @["src/tester.janet"])

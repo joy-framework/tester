@@ -1,4 +1,4 @@
-(import "src/main" :prefix "")
+(import "src/tester" :prefix "")
 
 (deftest
   (test "success"
