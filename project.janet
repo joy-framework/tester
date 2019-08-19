@@ -4,8 +4,8 @@
   :dependencies []
   :author "Sean Walker"
   :license "MIT"
-  :url "https://github.com/jets-framework/tester"
-  :repo "git+https://github.com/jets-framework/tester")
+  :url "https://github.com/joy-framework/tester"
+  :repo "git+https://github.com/joy-framework/tester")
 
 (declare-source
   :source @["src/tester.janet"])

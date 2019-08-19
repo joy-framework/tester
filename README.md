@@ -3,11 +3,11 @@ A testing library for janet
 
 ## Installation
 
-Add the dependency [https://github.com/jets-framework/tester](https://github.com/jets-framework/tester) to your `project.janet` file:
+Add the dependency [https://github.com/joy-framework/tester](https://github.com/joy-framework/tester) to your `project.janet` file:
 
 ```clojure
 (declare-project
-  :dependencies ["https://github.com/jets-framework/tester"])
+  :dependencies ["https://github.com/joy-framework/tester"])
 ```
 
 ## Usage
