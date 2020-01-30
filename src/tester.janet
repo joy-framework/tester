@@ -17,7 +17,8 @@
       (file/write stdout "\e[32m.\e[0m"))
     (do
       (set numchecks 0)
-      (print "\n" e)))
+      (file/write stdout "\n\e[31mx\e[0m ")
+      (print e)))
   x)
 
 (defn test [e x]
