@@ -17,10 +17,11 @@
       (file/write stdout "\e[32m.\e[0m"))
     (do
       (set numchecks 0)
-      (print e)))
+      (print "\n" e)))
   x)
 
-(def test assert)
+(defn test [e x]
+  (assert x e))
 
 (defmacro assert-error
   [msg & forms]
