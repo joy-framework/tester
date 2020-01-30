@@ -41,7 +41,6 @@
   (printf "\n\n%d/%d tests passed in %.3f seconds\n" num-tests-passed num-tests-run delta)
   (if (not= num-tests-passed num-tests-run) (os/exit 1)))
 
-
 (defmacro deftest [& forms]
   ~(do
      (start-suite)
