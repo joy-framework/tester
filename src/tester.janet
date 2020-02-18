@@ -21,14 +21,14 @@
       (print e)))
   x)
 
-(defn test [e x]
+(defmacro test [e x]
   ~(try
-     (assert x e)
+     (assert ,x ,e)
      ([err fib]
       (file/write stdout "\n\e[31mx\e[0m ")
-      (print e)
+      (print ,e)
       (debug/stacktrace fib err)
-      (error err))))
+      (os/exit 1))))
 
 (defmacro assert-error
   [msg & forms]
