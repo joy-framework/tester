@@ -30,6 +30,37 @@
       (debug/stacktrace fib err)
       (os/exit 1))))
 
+
+(defmacro is [form]
+  ~(do
+     (def expected (get ',form 1))
+     (def actual (eval (get ',form 2)))
+
+     (def form* (array ;',form))
+
+     (array/pop form*)
+
+     (array/push form* actual)
+
+     (def final-form (tuple ;form*))
+     (def result (eval final-form))
+
+     (if result
+       result
+       (do
+         (print)
+         (printf "Failed: %q" final-form)
+         (printf "Expected: %q" expected)
+         (printf "Actual: %q" actual)))))
+
+
+(defmacro catch [& forms]
+  ~(try
+     (do ,;forms)
+     ([err]
+      err)))
+
+
 (defmacro assert-error
   [msg & forms]
   (def errsym (keyword (gensym)))
