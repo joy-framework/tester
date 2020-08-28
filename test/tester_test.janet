@@ -1,4 +1,4 @@
-(import "src/tester" :prefix "")
+(import "src/tester" :prefix "" :exit true)
 
 (deftest
   (test "1 + 1 = 2"
