@@ -22,37 +22,26 @@
       (print e)))
   x)
 
-(defmacro test [e x]
-  ~(try
-     (assert ,x ,e)
-     ([err fib]
-      (file/write stdout "\n\e[31mx\e[0m ")
-      (print ,e)
-      (debug/stacktrace fib err)
-      (os/exit 1))))
+
+(defn test [e x]
+  (try
+    (assert x e)
+    ([err fib]
+     (file/write stdout "\n\e[31mx\e[0m ")
+     (print e)
+     (debug/stacktrace fib err)
+     (os/exit 1))))
 
 
 (defmacro is [form]
-  ~(do
-     (def expected (get ',form 1))
-     (def actual (eval (get ',form 2)))
-
-     (def form* (array ;',form))
-
-     (array/pop form*)
-
-     (array/push form* actual)
-
-     (def final-form (tuple ;form*))
-     (def result (eval final-form))
-
-     (if result
-       result
+  (let [[_ expected actual] form]
+    ~(if ,form
+       ,form
        (do
          (print)
-         (printf "Failed: %q" final-form)
-         (printf "Expected: %q" expected)
-         (printf "Actual: %q" actual)))))
+         (printf "Failed: %q" ',form)
+         (printf "Expected: %q" ,expected)
+         (printf "Actual: %q" ,actual)))))
 
 
 (defmacro catch [& forms]
