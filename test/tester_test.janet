@@ -11,4 +11,9 @@
     (is (= 3 (+ 1 2))))
 
   (test "errors can be tested"
-    (is (= "hello" (catch (error "hello"))))))
+    (is (= "hello" (catch (error "hello")))))
+
+  (test "is works with let"
+    (let [expected "expected"
+          actual "expected"]
+      (is (= expected actual)))))
