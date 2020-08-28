@@ -1,5 +1,6 @@
 # tester
-A testing library for janet
+
+__A testing library for janet__
 
 ## Installation
 
@@ -16,11 +17,16 @@ Create a `.janet` file for testing and use this library like so:
 
 
 ```clojure
-(import tester :prefix "")
+(import tester :prefix "" :exit true)
 
 (deftest
-  (test "1 and 1 equals 2"
-    (= 2 (+ 1 1))))
+  (test "1 + 1 = 2"
+    (is (= 2 (+ 1 1))))
+
+  (test "expected = actual"
+    (let [expected "expected"
+          actual "expected"]
+      (is (= expected actual)))))
 ```
 
 Run your tests from the terminal with `jpm test` in your project directory
@@ -29,23 +35,19 @@ Run your tests from the terminal with `jpm test` in your project directory
 jpm test
 ```
 
-For a better workflow, use [fswatch](https://github.com/emcrisostomo/fswatch) to restart `jpm test` from a `Makefile` automatically on a file change like this:
+For a better workflow, use [entr](https://github.com/eradman/entr) to restart `jpm test` automatically on a file change like this:
 
-```sh
-# Create a Makefile in your project dir that looks like this
-.PHONY: test
+```clojure
+; # ... rest of project.janet above
 
-test:
-	jpm test
-
-watch:
-	fswatch -o src test | xargs -n1 -I{} make
+(phony "watch" []
+  (os/shell "find . -name '*.janet' | entr -r -d jpm test"))
 ```
 
-Then run this from the terminal and you're all set to get a *fast* running test suite on any file change in `src` or in `test`
+Then run this from the terminal and you're all set to get a fast running test suite on any file change in `src` or in `test`
 
 ```sh
-make watch
+jpm run watch
 ```
 
 ## Contribute
