@@ -35,8 +35,8 @@
 
 (defmacro is [form]
   (let [[_ expected actual] form]
-    ~(if ,form
-       ,form
+    ~(if-let [result ,form]
+       result
        (do
          (print)
          (printf "Failed: %q" ',form)
