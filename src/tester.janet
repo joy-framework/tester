@@ -34,14 +34,16 @@
 
 
 (defmacro is [form]
-  (let [[_ expected actual] form]
-    ~(if-let [result ,form]
-       result
-       (do
-         (print)
-         (printf "Failed: %q" ',form)
-         (printf "Expected: %q" ,expected)
-         (printf "Actual: %q" ,actual)))))
+  (let [[op expected actual] form]
+    ~(let [_expected ,expected
+           _actual ,actual]
+        (if ~,(,op _expected _actual)
+          true
+          (do
+            (print)
+            (printf "Failed: %q" ',form)
+            (printf "Expected: %q" _expected)
+            (printf "Actual: %q" _actual))))))
 
 
 (defmacro catch [& forms]

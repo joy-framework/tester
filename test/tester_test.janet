@@ -16,4 +16,13 @@
   (test "is works with let"
     (let [expected "expected"
           actual "expected"]
-      (is (= expected actual)))))
+      (is (= expected actual))))
+
+  (test "dont eval actual twice"
+    (do
+      (var x 1)
+      (is (= 2 (do (set x (inc x))
+                   x)))))
+
+  (test "tuples shouldn't error"
+    (is (= ["hello"] (freeze @["hello"])))))
