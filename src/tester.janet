@@ -3,23 +3,19 @@
 
 (var num-tests-passed 0)
 (var num-tests-run 0)
-(var numchecks 0)
 (var start-time 0)
+(var suite-name "")
 
 
 (defn assert
   "Override's the default assert with some nice error handling."
   [x e]
   (++ num-tests-run)
-  (when x (++ num-tests-passed))
   (if x
-    (do
-      (++ numchecks)
-      (file/write stdout "\e[32m.\e[0m"))
-    (do
-      (set numchecks 0)
-      (file/write stdout "\n\e[31mx\e[0m ")
-      (print e)))
+    (++ num-tests-passed)
+    (if (empty? suite-name)
+      (print "Test: " e)
+      (print "Suite: " suite-name "\nTest: " e)))
   x)
 
 
@@ -35,14 +31,20 @@
 
 (defmacro is [form]
   (let [[op expected actual] form]
-    ~(let [_expected ,expected
-           _actual ,actual]
-        (if ~,(,op _expected _actual)
+    ~(let [_op ,op
+           len ,(length form)
+           _expected ,expected
+           _actual (if (= len 2)
+                     false
+                     ,actual)
+           result (if (= len 2)
+                    ~,(_op _expected)
+                    ~,(_op _expected _actual))]
+        (if result
           true
           (do
-            (print)
-            (printf "Failed: %q" ',form)
-            (printf "Expected: %q" _expected)
+            (printf "\nFailed: %q" ',form)
+            (printf "Expected: %q" (or (= len 2) _expected))
             (printf "Actual: %q" _actual))))))
 
 
@@ -65,18 +67,38 @@
   ~(assert (not= ,errsym (try (do ,;forms) ([_] ,errsym))) ,msg))
 
 
-(defn start-suite []
+(defn start-suite [&opt name]
+  (when (string? name)
+    (set suite-name name))
+
+  (set num-tests-passed 0)
+  (set num-tests-run 0)
   (set start-time (os/clock)))
 
 
 (defn end-suite []
-  (def delta (- (os/clock) start-time))
-  (printf "\n\n%d/%d tests passed in %.3f seconds\n" num-tests-passed num-tests-run delta)
-  (if (not= num-tests-passed num-tests-run) (os/exit 1)))
+  (let [delta (- (os/clock) start-time)
+        failures? (not= num-tests-passed num-tests-run)]
+
+    (printf "%s" (if failures? "\n" ""))
+
+    (unless (empty? suite-name)
+      (print "Suite: " suite-name))
+
+    (printf "Tests: %d/%d passed" num-tests-passed num-tests-run)
+    (printf "Duration: %.3f seconds" delta)
+
+    (if failures?
+      (os/exit 1)
+      (print))))
 
 
 (defmacro deftest [& forms]
   ~(do
-     (start-suite)
+     (start-suite ,(first forms))
      ,(splice forms)
      (end-suite)))
+
+
+(defmacro defsuite [& forms]
+  ~(deftest ,;forms))

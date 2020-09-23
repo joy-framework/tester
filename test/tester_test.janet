@@ -1,6 +1,6 @@
 (import "src/tester" :prefix "" :exit true)
 
-(deftest
+(defsuite # gives you timing information, optional
   (test "without is"
     (= 2 (+ 1 1)))
 
@@ -25,4 +25,11 @@
                    x)))))
 
   (test "tuples shouldn't error"
-    (is (= ["hello"] (freeze @["hello"])))))
+    (is (= ["hello"] (freeze @["hello"]))))
+
+  (test "empty?"
+    (is (empty? []))))
+
+(defsuite "predicates"
+  (test "any?"
+    (is (any? [true]))))
