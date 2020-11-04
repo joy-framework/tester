@@ -11,4 +11,4 @@
   :source @["src/tester.janet"])
 
 (phony "watch" []
-  (os/shell "find . -name '*.janet' | entr -r -d jpm test"))
+  (os/shell "find . -name '*.janet' | entr -c jpm test"))
