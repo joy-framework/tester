@@ -1,6 +1,13 @@
 (import "src/tester" :prefix "" :exit true)
 
-(defsuite # gives you timing information, optional
+(var doubled 1)
+
+# deftests is optional
+(deftests
+  (test "dont eval actual twice*"
+    (is (= 2 (do (set doubled (inc doubled))
+                 doubled))))
+
   (test "without is"
     (= 2 (+ 1 1)))
 
@@ -19,10 +26,8 @@
       (is (= expected actual))))
 
   (test "dont eval actual twice"
-    (do
-      (var x 1)
-      (is (= 2 (do (set x (inc x))
-                   x)))))
+    (is (= 3 (do (set doubled (inc doubled))
+                 doubled))))
 
   (test "tuples shouldn't error"
     (is (= ["hello"] (freeze @["hello"]))))
@@ -30,6 +35,7 @@
   (test "empty?"
     (is (empty? []))))
 
+# use defsuite to give a suite a name (name is required)
 (defsuite "predicates"
   (test "any?"
     (is (any? [true]))))

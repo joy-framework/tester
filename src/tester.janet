@@ -95,10 +95,17 @@
 
 (defmacro deftest [& forms]
   ~(do
-     (start-suite ,(first forms))
+     (start-suite)
      ,(splice forms)
      (end-suite)))
 
 
-(defmacro defsuite [& forms]
+(defmacro deftests [& forms]
   ~(deftest ,;forms))
+
+
+(defmacro defsuite [name & forms]
+  ~(do
+     (start-suite ,name)
+     ,(splice forms)
+     (end-suite)))
